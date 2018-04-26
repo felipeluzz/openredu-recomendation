@@ -76,10 +76,19 @@ class Result < ActiveRecord::Base
     exercise.questions.length - total_choices
   end
 
+  #Teste para recomendação
+  def recomendation_test
+    @find = Result.order("grade DESC", :duration)
+    {testG: @find[9].grade,
+    testD: @find[9].duration,
+    testID: @find[9].id }
+  end
+
   private
 
   def total_choices
     @total_choices ||= choices.length
   end
+
 
 end

@@ -52,6 +52,11 @@ class ResultsController < BaseController
     end
   end
 
+  #Teste para recomendação
+  def recomendation_test
+    @test =  "testing"
+  end
+
   protected
 
   def load_hierarchy
