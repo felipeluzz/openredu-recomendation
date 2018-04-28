@@ -47,15 +47,22 @@ class ResultsController < BaseController
     @results = Result.finalized.where(exercise_id: @exercise).
       includes(:user, :choices, exercise: :questions)
 
+    #Testes da recomendação
+    @test = Result.recomendation_test(@exercise.id)
+    @testG = @test[:testG]
+    @testD = @test[:testD]
+    @testID = @test[:testID]
+    @testEID = @test[:testEID]
+    @testUID = @test[:testUID]
+    @testUName = @test[:testUName]
+    @testULastName = @test[:testULastName]
+
     respond_to do |format|
       format.html { render 'results/admin/index' }
     end
   end
 
-  #Teste para recomendação
-  def recomendation_test
-    @test =  "testing"
-  end
+
 
   protected
 

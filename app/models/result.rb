@@ -77,11 +77,16 @@ class Result < ActiveRecord::Base
   end
 
   #Teste para recomendação
-  def recomendation_test
-    @find = Result.order("grade DESC", :duration)
-    {testG: @find[9].grade,
-    testD: @find[9].duration,
-    testID: @find[9].id }
+  def self.recomendation_test(exercise_id)
+    @find = Result.where("exercise_id = ?", exercise_id).order("grade DESC", :duration)
+    @find_user = User.find(@find[0].user_id)
+    {testG: @find[0].grade,
+    testD: @find[0].duration,
+    testID: @find[0].id, 
+    testEID: @find[0].exercise_id,
+    testUID: @find[0].user_id,
+    testUName: @find_user.first_name,
+    testULastName: @find_user.last_name }
   end
 
   private
