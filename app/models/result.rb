@@ -86,7 +86,8 @@ class Result < ActiveRecord::Base
     testEID: @find[0].exercise_id,
     testUID: @find[0].user_id,
     testUName: @find_user.first_name,
-    testULastName: @find_user.last_name }
+    testULastName: @find_user.last_name,
+    testUsername: @find_user.login }
   end
 
   private

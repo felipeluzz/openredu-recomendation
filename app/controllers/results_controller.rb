@@ -54,8 +54,9 @@ class ResultsController < BaseController
     @testID = @test[:testID]
     @testEID = @test[:testEID]
     @testUID = @test[:testUID]
-    @testUName = @test[:testUName]
-    @testULastName = @test[:testULastName]
+    @testUName = "#{@test[:testUName]} #{@test[:testULastName]}"
+    @testUsername = @test[:testUsername]
+    @testURL = "#{request.domain}/pessoas/#{@testUsername}"
 
     respond_to do |format|
       format.html { render 'results/admin/index' }
