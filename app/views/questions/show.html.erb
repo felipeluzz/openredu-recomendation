@@ -28,4 +28,13 @@
     </div>
 
   </div><!-- end #resource -->
+
+  <div class="exercise-recomendation">
+    <button class="button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before">Pedir recomendação</button>  
+    <% if @no_result %>
+      <p>Parece que nenhum aluno completou este exercício até agora. Que tal pedir algumas dicas para o professor <%= link_to @lecture.owner.display_name, user_path(@lecture.owner) %>? </p>
+    <% else %>
+      <p>O estudante <%= link_to @ranking_user_name, @ranking_user_URL %> já completou este exercício! Que tal pedir algumas dicas para ele? </p>
+    <% end %>
+  </div>
 </div><!-- end .main -->

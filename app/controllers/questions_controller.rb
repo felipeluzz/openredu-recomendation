@@ -13,6 +13,24 @@ class QuestionsController < BaseController
     @can_manage_lecture = can?(:manage, @lecture)
     @review = !@result.nil? || @can_manage_lecture
 
+    #Variáveis de recomendação
+    @ranking = Result.recomendation_ranking(@lecture.lectureable)
+    if not @ranking.nil?
+      @no_result = false
+      @ranking_grade = @ranking[:ranking_grade]
+      @ranking_duration = @ranking[:ranking_duration]
+      @ranking_ID = @ranking[:ranking_ID]
+      @ranking_exerciseID = @ranking[:ranking_exerciseID]
+      @ranking_userID = @ranking[:ranking_userID]
+      @ranking_user_name = "#{@ranking[:ranking_user_firstName]} #{@ranking[:ranking_user_lastName]}"
+      @ranking_username = @ranking[:ranking_username]
+      @ranking_user_URL = "#{request.domain}/pessoas/#{@ranking_username}"
+      @ranking_state = @ranking[:ranking_state]
+    else
+      @no_result = true
+    end
+    #------------------------------------------------------
+
     if current_user.get_association_with(@lecture.subject)
       asset_report = @lecture.asset_reports.of_user(current_user).first
       @student_grade = asset_report.enrollment.grade.to_i
