@@ -27,12 +27,11 @@
 
   <div class="exercise-recomendation">
     <button class="button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before">Pedir recomendação</button>  
-    <h1>Média: <%= @ranking_grade%></h1>
-    <h1>Duração: <%= @ranking_duration%></h1>
-    <h1>ID: <%= @ranking_ID%></h1>
-    <h1>Exercise_ID: <%= @ranking_exerciseID%><h1>
-    <h1>User_ID: <%= @ranking_userID%><h1>
-    <h1>Nome do aluno: <%= link_to @ranking_user_name, @ranking_user_URL %></h1>
+    <% if @no_result %>
+      <p>Parece que nenhum aluno completou este exercício até agora. Que tal pedir algumas dicas para seu professor ou tutor?</p>
+    <% else %>
+      <p>O estudante <%= link_to @ranking_user_name, @ranking_user_URL %> já completou este exercício! Que tal pedir algumas dicas para ele?</p>
+    <% end %>
   </div>
 
 

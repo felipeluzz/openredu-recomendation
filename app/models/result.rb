@@ -79,15 +79,17 @@ class Result < ActiveRecord::Base
   #Teste para recomendação
   def self.recomendation_ranking(exercise_id)
     @find_results = Result.where("exercise_id = ?", exercise_id).order("grade DESC", :duration)
-    @find_user = User.find(@find_results[0].user_id)
-    {ranking_grade: @find_results[0].grade,
-    ranking_duration: @find_results[0].duration,
-    ranking_ID: @find_results[0].id, 
-    ranking_exerciseID: @find_results[0].exercise_id,
-    ranking_userID: @find_results[0].user_id,
-    ranking_user_firstName: @find_user.first_name,
-    ranking_user_lastName: @find_user.last_name,
-    ranking_username: @find_user.login }
+    if not @find_results.blank?
+      @find_user = User.find(@find_results[0].user_id)
+      {ranking_grade: @find_results[0].grade,
+      ranking_duration: @find_results[0].duration,
+      ranking_ID: @find_results[0].id, 
+      ranking_exerciseID: @find_results[0].exercise_id,
+      ranking_userID: @find_results[0].user_id,
+      ranking_user_firstName: @find_user.first_name,
+      ranking_user_lastName: @find_user.last_name,
+      ranking_username: @find_user.login }
+    end
   end
 
   private
