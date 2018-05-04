@@ -99,6 +99,17 @@ class LecturesController < BaseController
         end
       elsif @lecture.lectureable_type == 'Exercise'
         format.html do
+          #Variáveis de recomendação
+          @ranking = Result.recomendation_ranking(@lecture.lectureable)
+          @ranking_grade = @ranking[:ranking_grade]
+          @ranking_duration = @ranking[:ranking_duration]
+          @ranking_ID = @ranking[:ranking_ID]
+          @ranking_exerciseID = @ranking[:ranking_exerciseID]
+          @ranking_userID = @ranking[:ranking_userID]
+          @ranking_user_name = "#{@ranking[:ranking_user_firstName]} #{@ranking[:ranking_user_lastName]}"
+          @ranking_username = @ranking[:ranking_username]
+          @ranking_user_URL = "#{request.domain}/pessoas/#{@ranking_username}"
+          #------------------------------------------------------
           @result = @lecture.lectureable.result_for(current_user)
           @first_question = @lecture.lectureable.questions.
             first(:conditions => { :position => 1 })

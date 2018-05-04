@@ -47,17 +47,6 @@ class ResultsController < BaseController
     @results = Result.finalized.where(exercise_id: @exercise).
       includes(:user, :choices, exercise: :questions)
 
-    #Testes da recomendação
-    @test = Result.recomendation_test(@exercise.id)
-    @testG = @test[:testG]
-    @testD = @test[:testD]
-    @testID = @test[:testID]
-    @testEID = @test[:testEID]
-    @testUID = @test[:testUID]
-    @testUName = "#{@test[:testUName]} #{@test[:testULastName]}"
-    @testUsername = @test[:testUsername]
-    @testURL = "#{request.domain}/pessoas/#{@testUsername}"
-
     respond_to do |format|
       format.html { render 'results/admin/index' }
     end
