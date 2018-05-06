@@ -1076,10 +1076,30 @@
   }
 }
 
+/* Recomendação */
+
 .exercise-recomendation {
   display: block;
   width: 100%;
   justify-content: center;
   text-align: center;
-  padding-bottom: 6%;
+  padding-bottom: 3%;
+}
+
+.recommendation-text-div {
+  background-color: rgb(247, 247, 247);
+  -webkit-box-shadow: 0 0 2px 1px black, 0 0 0 1px white inset;
+  -moz-box-shadow: 0 0 2px 1px black, 0 0 0 1px white inset;
+  box-shadow: 0 0 2px 1px black, 0 0 0 1px white inset;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin: 4%;
+  display: none;
+}
+
+.recommendation-text {
+  font-size: 1.3rem;
+  font-family: museo-slab, "Helvetica Neue", Arial, sans-serif;
+  padding: 3% 3%;
 }

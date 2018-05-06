@@ -1,4 +1,5 @@
 <%= render "shared/new_wall_assets", in_lecture: true %>
+
 <%= render partial: 'lectures/javascripts' %>
 <%= render partial: 'subjects/sidebar_without_comment' %>
 <div class="main space grid_12 omega big-col">
@@ -32,10 +33,12 @@
 
   <div class="exercise-recomendation">
     <button class="button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before">Pedir recomendação</button>  
-    <% if @no_result %>
-      <p>Parece que nenhum aluno completou este exercício até agora. Que tal pedir algumas dicas para o professor <%= link_to @lecture.owner.display_name, user_path(@lecture.owner) %>? </p>
-    <% else %>
-      <p>O estudante <%= link_to @ranking_user_name, @ranking_user_URL %> já completou este exercício! Que tal pedir algumas dicas para ele? </p>
-    <% end %>
+    <div class="recommendation-text-div">
+      <% if @no_result %>
+        <p class="recommendation-text">Parece que nenhum aluno completou este exercício até agora. Que tal pedir algumas dicas para o professor <%= link_to @lecture.owner.display_name, user_path(@lecture.owner) %>? </p>
+      <% else %>
+        <p class="recommendation-text">O estudante <%= link_to @ranking_user_name, @ranking_user_URL %> já completou este exercício! Que tal pedir algumas dicas para ele? </p>
+      <% end %>
+    </div>
   </div>
 </div><!-- end .main -->
