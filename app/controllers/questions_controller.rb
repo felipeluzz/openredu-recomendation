@@ -14,20 +14,28 @@ class QuestionsController < BaseController
     @review = !@result.nil? || @can_manage_lecture
 
     #Variáveis de recomendação
-    @ranking = Result.recomendation_ranking(@lecture.lectureable)
-    if not @ranking.nil?
-      @no_result = false
-      @ranking_grade = @ranking[:ranking_grade]
-      @ranking_duration = @ranking[:ranking_duration]
-      @ranking_ID = @ranking[:ranking_ID]
-      @ranking_exerciseID = @ranking[:ranking_exerciseID]
-      @ranking_userID = @ranking[:ranking_userID]
-      @ranking_user_name = "#{@ranking[:ranking_user_firstName]} #{@ranking[:ranking_user_lastName]}"
-      @ranking_username = @ranking[:ranking_username]
-      @ranking_user_URL = "#{request.domain}/pessoas/#{@ranking_username}"
-      @ranking_state = @ranking[:ranking_state]
-    else
+    @ranking_user1_firstName, @ranking_user1_lastName, @ranking_user1_login, @ranking_user2_firstName, @ranking_user2_lastName, @ranking_user2_login, @ranking_user3_firstName, @ranking_user3_lastName, @ranking_user3_login = Result.recomendation_ranking(@lecture.lectureable)
+    if @ranking_user1_firstName.nil?
       @no_result = true
+    else
+      @no_result = false
+      @ranking_user1_name = "#{@ranking_user1_firstName} #{@ranking_user1_lastName}"
+      @ranking_user1_URL = "#{request.domain}/pessoas/#{@ranking_user1_login}"
+      if not @ranking_user2_firstName.nil?
+        @has_two_results = true
+        @ranking_user2_name = "#{@ranking_user2_firstName} #{@ranking_user2_lastName}"
+        @ranking_user2_URL = "#{request.domain}/pessoas/#{@ranking_user2_login}"
+        if not @ranking_user3_firstName.nil?
+          @has_three_results = true
+          @ranking_user3_name = "#{@ranking_user3_firstName} #{@ranking_user3_lastName}"
+          @ranking_user3_URL = "#{request.domain}/pessoas/#{@ranking_user3_login}"
+        else
+          @has_three_results = false
+        end
+      else
+        @has_two_results = false
+        @has_three_results = false
+      end
     end
     #------------------------------------------------------
 

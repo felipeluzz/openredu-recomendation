@@ -1095,6 +1095,18 @@
   -moz-border-radius: 5px;
   border-radius: 5px;
   margin: 4%;
+  padding-bottom: 3%;
+}
+
+#first_recommendation {
+  display: none;
+}
+
+#second_recommendation {
+  display: none;
+}
+
+#third_recommendation {
   display: none;
 }
 

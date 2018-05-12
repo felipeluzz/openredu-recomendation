@@ -78,21 +78,39 @@ class Result < ActiveRecord::Base
 
   #Teste para recomendação
   def self.recomendation_ranking(exercise_id)
+    #Três melhores colocados
     @find_results = Result.where("exercise_id = ?", exercise_id).order("grade DESC", :duration)
     if not @find_results.blank?
       if @find_results[0].state == "finalized"
-        @find_user = User.find(@find_results[0].user_id)
-        {ranking_grade: @find_results[0].grade,
-        ranking_duration: @find_results[0].duration,
-        ranking_ID: @find_results[0].id, 
-        ranking_exerciseID: @find_results[0].exercise_id,
-        ranking_userID: @find_results[0].user_id,
-        ranking_user_firstName: @find_user.first_name,
-        ranking_user_lastName: @find_user.last_name,
-        ranking_username: @find_user.login, 
-        ranking_state: @find_results[0].state}
+        @find_user1 = User.find(@find_results[0].user_id)
+      else
+        return nil
       end
+      if not @find_results[1].nil? and @find_results[1].state == "finalized"
+        @find_user2 = User.find(@find_results[1].user_id)
+      else
+        return @find_user1.first_name, @find_user1.last_name, @find_user1.login
+      end
+      if @find_results[2].state == "finalized"
+        @find_user3 = User.find(@find_results[2].user_id)
+        return @find_user1.first_name, @find_user1.last_name, @find_user1.login, @find_user2.first_name, @find_user2.last_name, @find_user2.login, @find_user3.first_name, @find_user3.last_name, @find_user3.login
+      else
+        return @find_user1.first_name, @find_user1.last_name, @find_user1.login, @find_user2.first_name, @find_user2.last_name, @find_user2.login
+      end
+    else
+      return nil
     end
+    # {
+    #   ranking_user1_firstName: @find_user1.first_name,
+    #   ranking_user1_lastName: @find_user1.last_name,
+    #   ranking_username1: @find_user1.login,
+    #   ranking_user2_firstName: @find_user2.first_name,
+    #   ranking_user2_lastName: @find_user2.last_name,
+    #   ranking_username2: @find_user2.login,
+    #   ranking_user3_firstName: @find_user3.first_name,
+    #   ranking_user3_lastName: @find_user3.last_name,
+    #   ranking_username3: @find_user3.login
+    # }
   end
 
   private
