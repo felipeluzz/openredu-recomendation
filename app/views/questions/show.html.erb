@@ -33,14 +33,26 @@
 
   <div class="exercise-recomendation">
     <button class="button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before">Pedir recomendação</button>  
+
     <%# Recomendação de amigos %>
-    <% if not @no_result %>
+    <% if not @no_result and not @no_friend %>
       <div id="first_friend_recommendation" class="recommendation-text-div">
-        <p> Amigos: <%= @friend1 %> </p>
-        <p> Amigos: <%= @friend2 %> </p>
-        <p> Amigos: <%= @friend3 %> </p>    
-      </div>
+        <p class="recommendation-text">O seu amigo <%= link_to @friend1_name, @friend1_URL %> já completou este exercício! Quem sabe ele possa lhe dar algumas dicas? </p>
+        <% if @has_two_friends %>
+          <button id="second_friend_button" class="button-primary button-big lecture-wall-button button-next-recomendation icon-request-help-white_blue_32_34-before">Próximo Amigo</button>  
+          </div>
+          <div id="second_friend_recommendation" class="recommendation-text-div">
+            <p class="recommendation-text">O seu amigo <%= link_to @friend2_name, @friend2_URL %> já completou este exercício! Quem sabe ele possa lhe dar algumas dicas? </p>
+            <% if @has_three_friends %>
+              <button id="third_friend_button" class="button-primary button-big lecture-wall-button button-next-recomendation icon-request-help-white_blue_32_34-before">Próximo Amigo</button>  
+              </div>
+              <div id="third_friend_recommendation" class="recommendation-text-div">
+                <p class="recommendation-text">O seu amigo <%= link_to @friend3_name, @friend3_URL %> já completou este exercício! Quem sabe ele possa lhe dar algumas dicas? </p>
+              </div>
+          <% end %>
+        <% end %>
     <% end %>
+
     <%# Recomendação de outros %>
     <div id="first_recommendation" class="recommendation-text-div">
       <% if @no_result %>

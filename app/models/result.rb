@@ -108,16 +108,16 @@ def self.recommendation_friends(current_user_id, exercise_id)
   if @friends_that_completed_exercise.blank? or @friends_that_completed_exercise[0].nil?
     return nil
   else
-    @friend_name1 = User.find(@friends_that_completed_exercise[0].id).login
+    @friend1 = User.find(@friends_that_completed_exercise[0].id)
     if @friends_that_completed_exercise[1].nil?
-      return @friend_name1
+      return @friend1.first_name, @friend1.last_name, @friend1.login
     else
-      @friend_name2 = User.find(@friends_that_completed_exercise[1].id).login
+      @friend2 = User.find(@friends_that_completed_exercise[1].id)
       if @friends_that_completed_exercise[2].nil?
-        return @friend_name1, @friend_name2
+        return @friend1.first_name, @friend1.last_name, @friend1.login, @friend2.first_name, @friend2.last_name, @friend2.login
       else
-        @friend_name3 = User.find(@friends_that_completed_exercise[2].id).login
-        return @friend_name1, @friend_name2, @friend_name3
+        @friend3 = User.find(@friends_that_completed_exercise[2].id)
+        return @friend1.first_name, @friend1.last_name, @friend1.login, @friend2.first_name, @friend2.last_name, @friend2.login, @friend3.first_name, @friend3.last_name, @friend3.login
       end
     end
   end

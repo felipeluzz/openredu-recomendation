@@ -13,10 +13,32 @@ class QuestionsController < BaseController
     @can_manage_lecture = can?(:manage, @lecture)
     @review = !@result.nil? || @can_manage_lecture
 
+    #--------------------------------------------------------------------------------
     #Amigos recomendados
-    @friend1, @friend2, @friend3 = Result.recommendation_friends(current_user.id, @lecture.lectureable)
-
-    #Variáveis de recomendação
+    @friend1_firstName, @friend1_lastName, @friend1_login, @friend2_firstName, @friend2_lastName, @friend2_login, @friend3_firstName, @friend3_lastName, @friend3_login = Result.recommendation_friends(current_user.id, @lecture.lectureable)
+    if @friend1_firstName.nil?
+      @no_friend = true
+    else
+      @no_friend = false
+      @friend1_name = "#{@friend1_firstName} #{@friend1_lastName}"
+      @friend1_URL = "#{request.domain}/pessoas/#{@friend1_login}"
+      if not @friend2_firstName.nil?
+        @has_two_friends = true
+        @friend2_name = "#{@friend2_firstName} #{@friend2_lastName}"
+        @friend2_URL = "#{request.domain}/pessoas/#{@friend2_login}"
+        if not @friend3_firstName.nil?
+          @has_three_friends = true
+          @friend3_name = "#{@friend3_firstName} #{@friend3_lastName}"
+          @friend3_URL = "#{request.domain}/pessoas/#{@friend3_login}"
+        else
+          @has_three_friends = false
+        end
+      else
+        @has_two_friends = false
+        @has_three_friends = false
+      end
+    end
+    #Outros recomendados
     @ranking_user1_firstName, @ranking_user1_lastName, @ranking_user1_login, @ranking_user2_firstName, @ranking_user2_lastName, @ranking_user2_login, @ranking_user3_firstName, @ranking_user3_lastName, @ranking_user3_login = Result.recomendation_ranking(@lecture.lectureable)
     if @ranking_user1_firstName.nil?
       @no_result = true
