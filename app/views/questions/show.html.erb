@@ -49,7 +49,11 @@
               <div id="third_friend_recommendation" class="recommendation-text-div">
                 <p class="recommendation-text">O seu amigo <%= link_to @friend3_name, @friend3_URL %> já completou este exercício! Quem sabe ele possa lhe dar algumas dicas? </p>
               </div>
-          <% end %>
+            <% else %>
+              </div>
+            <% end %>
+        <% else %>
+          </div>
         <% end %>
     <% end %>
 
