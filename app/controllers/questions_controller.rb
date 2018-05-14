@@ -13,6 +13,9 @@ class QuestionsController < BaseController
     @can_manage_lecture = can?(:manage, @lecture)
     @review = !@result.nil? || @can_manage_lecture
 
+    #Amigos recomendados
+    @friend1, @friend2, @friend3 = Result.recommendation_friends(current_user.id, @lecture.lectureable)
+
     #Variáveis de recomendação
     @ranking_user1_firstName, @ranking_user1_lastName, @ranking_user1_login, @ranking_user2_firstName, @ranking_user2_lastName, @ranking_user2_login, @ranking_user3_firstName, @ranking_user3_lastName, @ranking_user3_login = Result.recomendation_ranking(@lecture.lectureable)
     if @ranking_user1_firstName.nil?

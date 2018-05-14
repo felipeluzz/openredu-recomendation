@@ -76,7 +76,7 @@ class Result < ActiveRecord::Base
     exercise.questions.length - total_choices
   end
 
-  #Teste para recomendação
+  #Função que cria ranking para recomendação baseado em notas e tempo de exercício
   def self.recomendation_ranking(exercise_id)
     #Três melhores colocados
     @find_results = Result.where("exercise_id = ?", exercise_id).order("grade DESC", :duration)
@@ -100,18 +100,28 @@ class Result < ActiveRecord::Base
     else
       return nil
     end
-    # {
-    #   ranking_user1_firstName: @find_user1.first_name,
-    #   ranking_user1_lastName: @find_user1.last_name,
-    #   ranking_username1: @find_user1.login,
-    #   ranking_user2_firstName: @find_user2.first_name,
-    #   ranking_user2_lastName: @find_user2.last_name,
-    #   ranking_username2: @find_user2.login,
-    #   ranking_user3_firstName: @find_user3.first_name,
-    #   ranking_user3_lastName: @find_user3.last_name,
-    #   ranking_username3: @find_user3.login
-    # }
   end
+
+#Função que pega os 3 amigos do usuário atual que já completaram o exercício
+def self.recommendation_friends(current_user_id, exercise_id)
+  @friends_that_completed_exercise =  User.contacts_and_pending_contacts_ids.where("friendships.user_id = ? AND friendships.status = 'accepted'", current_user_id).joins(:results).where("results.exercise_id = ? AND results.user_id = friendships.friend_id AND results.state = 'finalized'", exercise_id).order("grade DESC", :duration)
+  if @friends_that_completed_exercise.blank? or @friends_that_completed_exercise[0].nil?
+    return nil
+  else
+    @friend_name1 = User.find(@friends_that_completed_exercise[0].id).login
+    if @friends_that_completed_exercise[1].nil?
+      return @friend_name1
+    else
+      @friend_name2 = User.find(@friends_that_completed_exercise[1].id).login
+      if @friends_that_completed_exercise[2].nil?
+        return @friend_name1, @friend_name2
+      else
+        @friend_name3 = User.find(@friends_that_completed_exercise[2].id).login
+        return @friend_name1, @friend_name2, @friend_name3
+      end
+    end
+  end
+end
 
   private
 
@@ -121,3 +131,6 @@ class Result < ActiveRecord::Base
 
 
 end
+
+
+

@@ -33,6 +33,15 @@
 
   <div class="exercise-recomendation">
     <button class="button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before">Pedir recomendação</button>  
+    <%# Recomendação de amigos %>
+    <% if not @no_result %>
+      <div id="first_friend_recommendation" class="recommendation-text-div">
+        <p> Amigos: <%= @friend1 %> </p>
+        <p> Amigos: <%= @friend2 %> </p>
+        <p> Amigos: <%= @friend3 %> </p>    
+      </div>
+    <% end %>
+    <%# Recomendação de outros %>
     <div id="first_recommendation" class="recommendation-text-div">
       <% if @no_result %>
         <p class="recommendation-text">Parece que nenhum aluno completou este exercício até agora. Que tal pedir algumas dicas para o professor <%= link_to @lecture.owner.display_name, user_path(@lecture.owner) %>? </p>
