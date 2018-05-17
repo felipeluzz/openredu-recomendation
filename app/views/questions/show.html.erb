@@ -32,7 +32,7 @@
   </div><!-- end #resource -->
 
   <div class="exercise-recomendation">
-    <button class="button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before">Pedir recomendação</button>  
+    <button class="button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before"> <%= button_to "Pedir recomendação", { :controller => "questions", :action => "create_recommendation", :id => @question.id}, :method=>:post, :remote => true %></button>  
 
     <%# Recomendação de amigos %>
     <% if not @no_result and not @no_friend %>

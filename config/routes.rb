@@ -2,6 +2,9 @@
 Redu::Application.routes.draw do
   mount Ckeditor::Engine => '/ckeditor'
 
+  # Recomendação
+  match 'questions/create_recommendation' => 'questions#create_recommendation'
+
   localized do
     get 'getpdf', to: 'lectures#getpdf'
     match '/oauth/token',         :to => 'oauth#token',         :as => :token
@@ -24,6 +27,7 @@ Redu::Application.routes.draw do
     # Rota para todos os ambientes em geral e quando houver mais de um filtro selecionado
     match '/search/environments' => 'search#environments', :as => :search_environments
     match '/search/profiles' => 'search#profiles', :as => :search_profiles
+
 
     get "vis/dashboard/teacher_participation_interaction"
 
@@ -104,7 +108,7 @@ Redu::Application.routes.draw do
 
     resources :exercises, :only => :show do
       resources :results, :only => [:index, :create, :update, :edit]
-      resources :questions, :only => :show do
+      resources :questions, :only => [:show, :create_recommendation] do
         resources :choices, :only => [:create, :update]
       end
     end

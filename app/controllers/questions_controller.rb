@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class QuestionsController < BaseController
-  before_filter :load_hierarchy
+  before_filter :load_hierarchy, :except => :create_recommendation
 
   authorize_resource :question
 
@@ -73,6 +73,19 @@ class QuestionsController < BaseController
     respond_to do |format|
       format.html
     end
+  end
+
+  def create_recommendation
+    puts "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+    Recommendation.find_or_create_by_user_id_and_type_and_recommended_user_id_and_exercise_id(params[:user_id], params[:type], params[:recommended_user_id], params[:exercise_id]) do |r|
+      r.user_id = params[:user_id]
+      r.exercise_id = params[:exercise_id]
+      r.result_id = params[:result_id]
+      r.type = params[:type]
+      r.recommended_user_id = params[:recommended_user_id]
+      r.times_accepted = params[:times_accepted]
+    end
+    render nothing: true 
   end
 
   protected

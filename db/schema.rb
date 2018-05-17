@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20170928125123) do
+ActiveRecord::Schema.define(:version => 20180516184751) do
 
   create_table "alternatives", :force => true do |t|
     t.text     "text"
@@ -473,6 +473,17 @@ ActiveRecord::Schema.define(:version => 20170928125123) do
 
   add_index "rates", ["rateable_id", "rateable_type"], :name => "index_rates_on_rateable_id_and_rateable_type"
   add_index "rates", ["rater_id"], :name => "index_rates_on_rater_id"
+
+  create_table "recommendations", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "exercise_id"
+    t.integer  "result_id"
+    t.string   "type"
+    t.integer  "recommended_user_id"
+    t.integer  "times_accepted"
+    t.datetime "created_at",          :null => false
+    t.datetime "updated_at",          :null => false
+  end
 
   create_table "results", :force => true do |t|
     t.integer  "user_id"
