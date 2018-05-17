@@ -15,7 +15,7 @@ class QuestionsController < BaseController
 
     #--------------------------------------------------------------------------------
     #Amigos recomendados
-    @friend1_firstName, @friend1_lastName, @friend1_login, @friend2_firstName, @friend2_lastName, @friend2_login, @friend3_firstName, @friend3_lastName, @friend3_login = Result.recommendation_friends(current_user.id, @lecture.lectureable)
+    @friend1_id, @friend1_firstName, @friend1_lastName, @friend1_login, @friend2_id, @friend2_firstName, @friend2_lastName, @friend2_login, @friend3_id, @friend3_firstName, @friend3_lastName, @friend3_login = Result.recommendation_friends(current_user.id, @lecture.lectureable)
     if @friend1_firstName.nil?
       @no_friend = true
     else
@@ -39,7 +39,7 @@ class QuestionsController < BaseController
       end
     end
     #Outros recomendados
-    @ranking_user1_firstName, @ranking_user1_lastName, @ranking_user1_login, @ranking_user2_firstName, @ranking_user2_lastName, @ranking_user2_login, @ranking_user3_firstName, @ranking_user3_lastName, @ranking_user3_login = Result.recomendation_ranking(@lecture.lectureable)
+    @ranking_user1_id, @ranking_user1_firstName, @ranking_user1_lastName, @ranking_user1_login, @ranking_user2_id, @ranking_user2_firstName, @ranking_user2_lastName, @ranking_user2_login, @ranking_user3_id, @ranking_user3_firstName, @ranking_user3_lastName, @ranking_user3_login = Result.recomendation_ranking(@lecture.lectureable)
     if @ranking_user1_firstName.nil?
       @no_result = true
     else
@@ -76,14 +76,27 @@ class QuestionsController < BaseController
   end
 
   def create_recommendation
-    puts "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-    Recommendation.find_or_create_by_user_id_and_type_and_recommended_user_id_and_exercise_id(params[:user_id], params[:type], params[:recommended_user_id], params[:exercise_id]) do |r|
-      r.user_id = params[:user_id]
-      r.exercise_id = params[:exercise_id]
-      r.result_id = params[:result_id]
-      r.type = params[:type]
-      r.recommended_user_id = params[:recommended_user_id]
-      r.times_accepted = params[:times_accepted]
+    if params[:recommended_other_user_id].present?
+      #Recomendação de não amigos
+      Recommendation.find_or_create_by_user_id_and_recommendation_type_and_recommended_user_id_and_exercise_id(params[:user_id], "Other", params[:recommended_other_user_id], params[:exercise_id]) do |r|
+        r.user_id = params[:user_id]
+        r.exercise_id = params[:exercise_id]
+        r.result_id = params[:result_id]
+        r.recommendation_type = "Other"
+        r.recommended_user_id = params[:recommended_other_user_id]
+        r.times_accepted = params[:times_accepted]
+      end
+    end
+    if params[:recommended_friend_user_id].present?
+      #Recomendação de amigos
+      Recommendation.find_or_create_by_user_id_and_recommendation_type_and_recommended_user_id_and_exercise_id(params[:user_id], "Friend", params[:recommended_friend_user_id], params[:exercise_id]) do |r|
+        r.user_id = params[:user_id]
+        r.exercise_id = params[:exercise_id]
+        r.result_id = params[:result_id]
+        r.recommendation_type = "Friend"
+        r.recommended_user_id = params[:recommended_friend_user_id]
+        r.times_accepted = params[:times_accepted]
+      end
     end
     render nothing: true 
   end

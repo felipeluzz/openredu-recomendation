@@ -89,13 +89,13 @@ class Result < ActiveRecord::Base
       if not @find_results[1].nil? and @find_results[1].state == "finalized"
         @find_user2 = User.find(@find_results[1].user_id)
       else
-        return @find_user1.first_name, @find_user1.last_name, @find_user1.login
+        return @find_user1.id, @find_user1.first_name, @find_user1.last_name, @find_user1.login
       end
       if @find_results[2].state == "finalized"
         @find_user3 = User.find(@find_results[2].user_id)
-        return @find_user1.first_name, @find_user1.last_name, @find_user1.login, @find_user2.first_name, @find_user2.last_name, @find_user2.login, @find_user3.first_name, @find_user3.last_name, @find_user3.login
+        return @find_user1.id, @find_user1.first_name, @find_user1.last_name, @find_user1.login, @find_user2.id, @find_user2.first_name, @find_user2.last_name, @find_user2.login, @find_user3.id, @find_user3.first_name, @find_user3.last_name, @find_user3.login
       else
-        return @find_user1.first_name, @find_user1.last_name, @find_user1.login, @find_user2.first_name, @find_user2.last_name, @find_user2.login
+        return @find_user1.id, @find_user1.first_name, @find_user1.last_name, @find_user1.login, @find_user2.id, @find_user2.first_name, @find_user2.last_name, @find_user2.login
       end
     else
       return nil
@@ -110,14 +110,14 @@ def self.recommendation_friends(current_user_id, exercise_id)
   else
     @friend1 = User.find(@friends_that_completed_exercise[0].id)
     if @friends_that_completed_exercise[1].nil?
-      return @friend1.first_name, @friend1.last_name, @friend1.login
+      return @friend1.id, @friend1.first_name, @friend1.last_name, @friend1.login
     else
       @friend2 = User.find(@friends_that_completed_exercise[1].id)
       if @friends_that_completed_exercise[2].nil?
-        return @friend1.first_name, @friend1.last_name, @friend1.login, @friend2.first_name, @friend2.last_name, @friend2.login
+        return @friend1.id, @friend1.first_name, @friend1.last_name, @friend1.login, @friend2.id, @friend2.first_name, @friend2.last_name, @friend2.login
       else
         @friend3 = User.find(@friends_that_completed_exercise[2].id)
-        return @friend1.first_name, @friend1.last_name, @friend1.login, @friend2.first_name, @friend2.last_name, @friend2.login, @friend3.first_name, @friend3.last_name, @friend3.login
+        return @friend1.id, @friend1.first_name, @friend1.last_name, @friend1.login, @friend2.id, @friend2.first_name, @friend2.last_name, @friend2.login, @friend3.id, @friend3.first_name, @friend3.last_name, @friend3.login
       end
     end
   end
