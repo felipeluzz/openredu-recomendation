@@ -4,6 +4,7 @@ Redu::Application.routes.draw do
 
   # Recomendação
   match 'questions/create_recommendation' => 'questions#create_recommendation'
+  match 'questions/update_recommendation' => 'questions#update_recommendation'
 
   localized do
     get 'getpdf', to: 'lectures#getpdf'
@@ -108,7 +109,7 @@ Redu::Application.routes.draw do
 
     resources :exercises, :only => :show do
       resources :results, :only => [:index, :create, :update, :edit]
-      resources :questions, :only => [:show, :create_recommendation] do
+      resources :questions, :only => [:show, :create_recommendation, :update_recommendation] do
         resources :choices, :only => [:create, :update]
       end
     end

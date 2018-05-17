@@ -37,26 +37,26 @@
       <button class="button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before">Pedir Recomendação</button>
     <% else %>
       <% if @no_friend %>
-        <%= button_to "Pedir recomendação", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :result_id => @exercise.result_for(current_user), :recommended_other_user_id => @ranking_user1_id, :times_accepted => 0},  :method=>:post, :remote => true , :class => "button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before" %>
+        <%= button_to "Pedir recomendação", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_other_user_id => @ranking_user1_id, :times_accepted => 0},  :method=>:post, :remote => true , :class => "button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before" %>
       <% else %>
-        <%= button_to "Pedir recomendação", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :result_id => @exercise.result_for(current_user), :recommended_other_user_id => @ranking_user1_id, :recommended_friend_user_id => @friend1_id, :times_accepted => 0},  :method=>:post, :remote => true , :class => "button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before" %>
+        <%= button_to "Pedir recomendação", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_other_user_id => @ranking_user1_id, :recommended_friend_user_id => @friend1_id, :times_accepted => 0},  :method=>:post, :remote => true , :class => "button-primary button-big lecture-wall-button button-recomendation icon-request-help-white_blue_32_34-before" %>
       <% end %>
     <% end %>
 
     <%# Recomendação de amigos %>
     <% if not @no_result and not @no_friend %>
       <div id="first_friend_recommendation" class="recommendation-text-div">
-        <p class="recommendation-text">O seu amigo <%= link_to @friend1_name, @friend1_URL %> já completou este exercício! Quem sabe ele possa lhe dar algumas dicas? </p>
+        <p class="recommendation-text">O seu amigo <%= link_to @friend1_name, { :controller => "questions", :action => "update_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_user_id => @friend1_id, :type => "Friend", :url => @friend1_URL } %> já completou este exercício! Quem sabe ele possa lhe dar algumas dicas? </p>
         <% if @has_two_friends %>
-          <%= button_to "Próximo Amigo", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :result_id => @exercise.result_for(current_user), :recommended_friend_user_id => @friend2_id, :times_accepted => 0},  :method=>:post, :remote => true , :id => "second_friend_button", :class => "button-primary button-big lecture-wall-button button-next-recomendation icon-request-help-white_blue_32_34-before" %>  
+          <%= button_to "Próximo Amigo", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_friend_user_id => @friend2_id, :times_accepted => 0},  :method=>:post, :remote => true , :id => "second_friend_button", :class => "button-primary button-big lecture-wall-button button-next-recomendation icon-request-help-white_blue_32_34-before" %>  
           </div>
           <div id="second_friend_recommendation" class="recommendation-text-div">
-            <p class="recommendation-text">O seu amigo <%= link_to @friend2_name, @friend2_URL %> já completou este exercício! Quem sabe ele possa lhe dar algumas dicas? </p>
+            <p class="recommendation-text">O seu amigo <%= link_to @friend2_name, { :controller => "questions", :action => "update_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_user_id => @friend2_id, :type => "Friend", :url => @friend2_URL } %> já completou este exercício! Quem sabe ele possa lhe dar algumas dicas? </p>
             <% if @has_three_friends %>
-              <%= button_to "Próximo Amigo", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :result_id => @exercise.result_for(current_user), :recommended_friend_user_id => @friend3_id, :times_accepted => 0},  :method=>:post, :remote => true , :id => "third_friend_button", :class => "button-primary button-big lecture-wall-button button-next-recomendation icon-request-help-white_blue_32_34-before" %>   
+              <%= button_to "Próximo Amigo", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_friend_user_id => @friend3_id, :times_accepted => 0},  :method=>:post, :remote => true , :id => "third_friend_button", :class => "button-primary button-big lecture-wall-button button-next-recomendation icon-request-help-white_blue_32_34-before" %>   
               </div>
               <div id="third_friend_recommendation" class="recommendation-text-div">
-                <p class="recommendation-text">O seu amigo <%= link_to @friend3_name, @friend3_URL %> já completou este exercício! Quem sabe ele possa lhe dar algumas dicas? </p>
+                <p class="recommendation-text">O seu amigo <%= link_to @friend3_name, { :controller => "questions", :action => "update_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_user_id => @friend3_id, :type => "Friend", :url => @friend3_URL } %> já completou este exercício! Quem sabe ele possa lhe dar algumas dicas? </p>
               </div>
             <% else %>
               </div>
@@ -71,17 +71,17 @@
       <% if @no_result %>
         <p class="recommendation-text">Parece que nenhum aluno completou este exercício até agora. Que tal pedir algumas dicas para o professor <%= link_to @lecture.owner.display_name, user_path(@lecture.owner) %>? </p>
       <% else %>
-        <p class="recommendation-text">O estudante <%= link_to @ranking_user1_name, @ranking_user1_URL %> já completou este exercício! Que tal pedir algumas dicas para ele? </p>
+        <p class="recommendation-text">O estudante <%= link_to @ranking_user1_name, { :controller => "questions", :action => "update_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_user_id => @ranking_user1_id, :type => "Other", :url => @ranking_user1_URL } %> já completou este exercício! Que tal pedir algumas dicas para ele? </p>
         <% if @has_two_results %>
-          <%= button_to "Próxima Recomendação", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :result_id => @exercise.result_for(current_user), :recommended_other_user_id => @ranking_user2_id, :times_accepted => 0},  :method=>:post, :remote => true , :id => "second_recommendation_button", :class => "button-primary button-big lecture-wall-button button-next-recomendation icon-request-help-white_blue_32_34-before" %> 
+          <%= button_to "Próxima Recomendação", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_other_user_id => @ranking_user2_id, :times_accepted => 0},  :method=>:post, :remote => true , :id => "second_recommendation_button", :class => "button-primary button-big lecture-wall-button button-next-recomendation icon-request-help-white_blue_32_34-before" %> 
           </div>
           <div id="second_recommendation" class="recommendation-text-div">
-            <p class="recommendation-text">O estudante <%= link_to @ranking_user2_name, @ranking_user2_URL %> já completou este exercício! Que tal pedir algumas dicas para ele? </p>
+            <p class="recommendation-text">O estudante <%= link_to @ranking_user2_name, { :controller => "questions", :action => "update_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_user_id => @ranking_user2_id, :type => "Other", :url => @ranking_user2_URL } %> já completou este exercício! Que tal pedir algumas dicas para ele? </p>
             <% if @has_three_results %>
-              <%= button_to "Próxima Recomendação", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :result_id => @exercise.result_for(current_user), :recommended_other_user_id => @ranking_user3_id, :times_accepted => 0},  :method=>:post, :remote => true , :id => "third_recommendation_button", :class => "button-primary button-big lecture-wall-button button-next-recomendation icon-request-help-white_blue_32_34-before" %> 
+              <%= button_to "Próxima Recomendação", { :controller => "questions", :action => "create_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_other_user_id => @ranking_user3_id, :times_accepted => 0},  :method=>:post, :remote => true , :id => "third_recommendation_button", :class => "button-primary button-big lecture-wall-button button-next-recomendation icon-request-help-white_blue_32_34-before" %> 
               </div>
               <div id="third_recommendation" class="recommendation-text-div">
-                <p class="recommendation-text">O estudante <%= link_to @ranking_user3_name, @ranking_user3_URL %> já completou este exercício! Que tal pedir algumas dicas para ele? </p>
+                <p class="recommendation-text">O estudante <%= link_to @ranking_user3_name, { :controller => "questions", :action => "update_recommendation", :user_id => current_user.id, :exercise_id => @lecture.lectureable, :recommended_user_id => @ranking_user3_id, :type => "Other", :url => @ranking_user3_URL } %> já completou este exercício! Que tal pedir algumas dicas para ele? </p>
               </div>
           <% end %>
         <% end %>

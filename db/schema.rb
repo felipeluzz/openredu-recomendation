@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20180517042800) do
+ActiveRecord::Schema.define(:version => 20180517170443) do
 
   create_table "alternatives", :force => true do |t|
     t.text     "text"
@@ -477,7 +477,6 @@ ActiveRecord::Schema.define(:version => 20180517042800) do
   create_table "recommendations", :force => true do |t|
     t.integer  "user_id"
     t.integer  "exercise_id"
-    t.integer  "result_id"
     t.string   "recommendation_type"
     t.integer  "recommended_user_id"
     t.integer  "times_accepted"

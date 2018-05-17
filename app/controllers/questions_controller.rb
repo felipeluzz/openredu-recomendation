@@ -1,6 +1,6 @@
 # -*- encoding : utf-8 -*-
 class QuestionsController < BaseController
-  before_filter :load_hierarchy, :except => :create_recommendation
+  before_filter :load_hierarchy, :except => [:create_recommendation, :update_recommendation]
 
   authorize_resource :question
 
@@ -75,13 +75,13 @@ class QuestionsController < BaseController
     end
   end
 
+  #Cria uma nova entrada na tabela de recomendação
   def create_recommendation
     if params[:recommended_other_user_id].present?
       #Recomendação de não amigos
       Recommendation.find_or_create_by_user_id_and_recommendation_type_and_recommended_user_id_and_exercise_id(params[:user_id], "Other", params[:recommended_other_user_id], params[:exercise_id]) do |r|
         r.user_id = params[:user_id]
         r.exercise_id = params[:exercise_id]
-        r.result_id = params[:result_id]
         r.recommendation_type = "Other"
         r.recommended_user_id = params[:recommended_other_user_id]
         r.times_accepted = params[:times_accepted]
@@ -92,13 +92,18 @@ class QuestionsController < BaseController
       Recommendation.find_or_create_by_user_id_and_recommendation_type_and_recommended_user_id_and_exercise_id(params[:user_id], "Friend", params[:recommended_friend_user_id], params[:exercise_id]) do |r|
         r.user_id = params[:user_id]
         r.exercise_id = params[:exercise_id]
-        r.result_id = params[:result_id]
         r.recommendation_type = "Friend"
         r.recommended_user_id = params[:recommended_friend_user_id]
         r.times_accepted = params[:times_accepted]
       end
     end
     render nothing: true 
+  end
+
+  #Atualiza uma entrada na tabela de recomendação
+  def update_recommendation
+    Recommendation.update_all("times_accepted = times_accepted + 1", {:user_id => params[:user_id], :recommendation_type => params[:type], :recommended_user_id => params[:recommended_user_id], :exercise_id => params[:exercise_id]})
+    redirect_to params[:url]
   end
 
   protected
